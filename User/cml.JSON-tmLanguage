@@ -1,0 +1,180 @@
+{ "name": "Chris Markup Language (CML)",
+  "scopeName": "text.cml",
+  "fileTypes": ["cml"],
+  "patterns": [
+
+
+  {
+    "name": "todo.incomplete4.cml",
+    "comment": "Unfinished task level 4",
+    "begin": "^\\t\\t\\t+\\-\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.incomplete3.cml",
+    "comment": "Unfinished task level 3",
+    "begin": "^\\t\\t\\-\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.incomplete2.cml",
+    "comment": "Unfinished task level 2",
+    "begin": "^\\t\\-\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+  	"name": "todo.incomplete1.cml",
+  	"comment": "Unfinished task level 1",
+    "begin": "^\\-\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+ 
+  {
+  	"name": "todo.inprogress.cml",
+  	"comment": "In-progress task",
+    "begin": "^\\s*\\*\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+  	"name": "todo.complete.cml",
+  	"comment": "Finished task",
+    "begin": "^\\s*\\+\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.dead.cml",
+    "comment": "Dead task",
+    "begin": "^\\s*x\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.unsure.cml",
+    "comment": "Unsure task",
+    "begin": "^\\s*\\?\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+  	"name": "todo.heading.1.cml",
+  	"comment": "Heading 1",
+    "begin": "^\\s*\\=\\=\\=\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+  	"name": "todo.heading.2.cml",
+  	"comment": "Heading 2",
+    "begin": "^\\s*\\=\\=\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.major.cml",
+    "comment": "Major task",
+    "begin": "^\\s*\\=\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.bug.cml",
+    "comment": "Bugfix task",
+    "begin": "^\\s*\\#\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  {
+    "name": "todo.alert.cml",
+    "comment": "Alert task",
+    "begin": "^\\s*\\!\\s",
+    "end": "$",
+    "patterns": [
+      { "include": "#context" },
+      { "include": "#project" }
+    ]
+  },
+
+  { "match": "(\\@\\S+)",
+    "name": "context.cml",
+    "comment": "Context"
+  },
+
+  { "match": "(\\+\\S+)",
+    "name": "project.cml",
+    "comment": "Project"
+  },
+
+  { "match": ".",
+    "name": "todo.string.cml",
+    "comment": "String"
+  }
+
+  ],
+
+  "repository": {
+    "context": {
+      "name": "context.cml",
+      "match": "(\\@\\S+)"
+    },
+    "project": {
+      "name": "project.cml",
+      "match": "(\\[\\+\\#\\]\\S+)"
+    }
+  },
+
+
+  "uuid": "09210bf3-2b16-47ca-a42e-4dee50cd6535"
+}

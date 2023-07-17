@@ -1,0 +1,8 @@
+[
+    { 
+        "keys": ["ctrl+alt+c"], "command": "cml_cleanup"
+    },
+    {
+        "keys": ["ctrl+shift+s"], "command": "save_all"
+    }
+]

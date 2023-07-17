@@ -1,0 +1,74 @@
+=== PHOTO GEOTAG LOG
+
+== Common
++ Switch to SQLite for storage
+	+ Call into DB for
+		+ add
+		+ read
+		+ update
+		+ list
+	- Picture filename is date of capture
+		+ shouldn't be in done
+			+ also shouldn't be in done
+- Store photos as blob in DB
+	? How to handle email attachment
+	- Add extension to photo filename to support different formats in the future
++ Description
+	x Connection
+		* Actionitem
+- Make icon
+= Prettify interface
+* Maps integration
+	- Button to show location in maps app
+	- In picture list view, photo & map hybrid
+		+ shouldn't be in done either
+- Check that email was sent successfully
+
+== Log
++ Alter when dates are captured
+	+ Capture original date on first populate
+	+ Capture photo filename date on capture/select
+	- Click photo to capture/pick based on dialog
+	- Show dialog to select capture or choose
+- Stop GPS when good enough/time limit
+x Support re-capture of location
+	x Don't modify on location change unless populated
+? Simpler photo capture (no "confirm" button)
+? Look into LocationManager best practices
+- Actionbar
+	- Settings
+	* GPS accuracy radius?
+# Clicking on photo during text edit discards text entry
+	# test badly indented bug
+
+== History
+- Optimize (caching)
+	- Load (startup time)
+	- Scroll
+	- Use LoaderManager with CursorLoader to help with requeries
+	- Move db query to a thread
+- Improve efficiency of list with images
+- Handle "no (matching) items" with alternate view(s) saying so
+# Colors on item titles seem to be backwards
+
+
+=== DONE
+
++ Add date/time to log
+x Support rotation
++ Back to go to history
+	+ Click to capture
++ Simpler email select for send operation
+	+ Create DB helper
+	+ Create schema
+		+ to DB
+	+ GPSLog element
+
++ Gmail crash: sent bad image URI?
+	+ should be fixed now...
+x Add Save button
+	x Define date and name on save
+	x Save to temp log until proper save action
+
++ Load list from files
++ Run Log activity at startup

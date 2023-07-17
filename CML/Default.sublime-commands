@@ -1,0 +1,5 @@
+[{
+  "id": "cml_cleanup",
+  "caption": "Cleanup CML file",
+  "command": "cml_cleanup"
+}]

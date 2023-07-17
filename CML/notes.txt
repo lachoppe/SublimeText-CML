@@ -1,0 +1,105 @@
+source
+
++ Switch to SQLite for storage
+	+ Call into DB for
+		+ add
+		+ read
+		+ update
+		+ list
+	- Picture filename is date of capture
+		+ shouldn't be in done
+			+ also shouldn't be in done
+
+live
+
++ Switch to SQLite for storage
+	- Picture filename is date of capture
+		+ shouldn't be in done
+			+ also shouldn't be in done
+
+dead
+
++ Switch to SQLite for storage
+	+ Call into DB for
+		+ add
+		+ read
+		+ update
+		+ list
+
+
+	0	1 	2
+1 	+ A
+2 		+ B
+3			+ C
+4		- d
+5			+ E
+6		+ F
+7			+ G
+8			+ H
+8	- i
+9		+ J
+
+
+Live 	Dead
+A 		A
+ d 		 B
+  E 	  C
+i 		 F
+ J 		  G
+ 		  H
+
+
+	live	dead	pop		lf		df
+1	A 		A 		
+2	AB 		AB 		
+3	ABC 	ABC 	
+4	Ad				* 		(BC)	ABC
+5	AdE						
+6	F		F		*		AdE		
+7	FG		FG					
+8	FH		H		*		(G)		FG
+9	i				*		(FH)	H	
+10	iJ						
+11					*		iJ
+
+
+for each line:
+
+	get indent i
+
+	//if i = 0
+	//	get deadstart ds
+
+	if live and firstlive == -1
+		firstlive = i
+
+	[live/dead]
+	depth d
+	if i == d
+		[dead: if !live]
+		append line to stack
+	else
+		[dead] or [live: firstlive >= 0]
+			// pull all elements off the stack and print them
+		else
+			[live: x = d-i]
+			// pull last x elements off the stack and discard them
+
+
+
+
+
+# rule:
+# 	live:
+# 		if line is live or any parent is live, indent it to live stack
+# 	dead:
+# 		if line is dead and parents are all dead, indent it to dead stack
+# 
+# indent:
+# 	if block indent < stack indent			# above
+# 		commit stack top to section
+# 		pop top block off of stack
+# 	else if block indent = stack indent		# same
+# 		append text to top block
+# 	else // block indent > stack indent		# below
+# 		push new block onto stack

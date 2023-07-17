@@ -1,0 +1,26 @@
+=== CML EXAMPLE
+
+
+== TODO
+
+# Old Python 2 script doesn't work on Sublime Text 4
+= SET UP REPOSITORY
+	* Upload to online repository
+		- Choose between @GitHub and @BitBucket
+			- Research the difference
+		? Create the remote repository before local
+! Need to pick a license first thing
+	- Lots of info online: https://www.google.com/search?q=licenses+mit+gnu+apache
+	x Look at all the license options, not just the top 3
+- Fill repository with clean, cross-platform version of +Package files
+	- Make sure I have both OS keymap files
+	- Remove any unnecessary `*.cache` files
+
+
+=== DONE
+
+= SET UP REPOSITORY
+	+ Create a local git repository
+	x Come up with a better name for the repository
+x Recruit people to test
+
