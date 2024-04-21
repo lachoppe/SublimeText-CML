@@ -1,15 +1,23 @@
-import sublime, sublime_plugin, re, weakref
+from sublime import *
+from sublime_plugin import *
+from re import *
+from weakref import *
 
 abortPlugin = 0
+debugLevel = 0
 
 def indent(line):
     strip = line.lstrip()
     return len(line) - len(strip)
 
-def errorMessage(num, text):
+def errorMessage(msg, num, text):
 	global abortPlugin
 	abortPlugin = 1
-	sublime.error_message( "Syntax error!  Aborting...\n\n{0}: {1}".format( num, text ) )
+	sublime.error_message( "Syntax error!  Aborting...\n\n{0}\n{1}: {2}".format( msg, num, text ) )
+
+def debugOut(msg, content, line, level):
+	if debugLevel >= level:
+		print( "{0}: {1}: {2}".format( line, msg, content) )
 
 class Node(object):
 
@@ -48,7 +56,7 @@ class Node(object):
 
 	def compileDeadTree( self, sum ):
 		if self.hasDeadPath():
-			#print "dead path: ", self.text
+			debugOut("dead path", self.text, self.errorLine, 2) 
 			sum += self.text
 			for c in self.children:
 				sum = c.compileDeadTree( sum )
@@ -64,7 +72,7 @@ class Node(object):
 
 	def compileLiveTree( self, sum, force ):
 		if force or self.hasLivePath():
-			#print "live path: ", self.text
+			debugOut("live path", self.text, self.errorLine, 2)
 			sum += self.text
 			for c in self.children:
 				sum = c.compileLiveTree( sum, force or self.live )
@@ -107,20 +115,23 @@ def makeNode( line, errorLine, parent ):
 	node.indent = indent(line)
 	node.text = line
 	node.errorLine = errorLine
-	node.live = 1
-	foundDone = re.search( r'^\s*[\+x\*\>\=]', line, re.M )
-	if foundDone:
-		node.live = 0
+
+	node.live = 0
+	foundLive = re.search( r'^\s*[-\*!#\?] ', line, re.M )
+	if foundLive:
+		node.live = 1
+
 	node.active = 0
-	foundActive = re.search( r'^\s*\*', line, re.M )
+	foundActive = re.search( r'^\s*\* ', line, re.M )
 	if foundActive:
 		node.active = 1
 		node.live = 1
 	node.bug = 0
-	foundBugs = re.search( r'^\s*\#', line, re.M )
-	if foundBugs:
-		node.bug = 1
-		node.live = 1
+	if bugsFirst:
+		foundBugs = re.search( r'^\s*\# ', line, re.M )
+		if foundBugs:
+			node.bug = 1
+			node.live = 1
 	node.setParent( parent )
 	if parent != None:
 		parent.addChild( node )
@@ -130,13 +141,22 @@ def makeNode( line, errorLine, parent ):
 class CmlCleanupCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
+		settings = sublime.load_settings('cml.sublime-settings')
+
+		debugLevel = settings.get('cml_debug_level', 0)
+		global bugsFirst
+		bugsFirst = settings.get('cml_bugs_first', 0)
+
+		if debugLevel > 0:
+			print("Running CmlCleanup in debug level {0}".format(debugLevel));
+
 		self.view.run_command("select_all")
 		allRegion = self.view.sel()[0];
 
 		lineRegions = self.view.split_by_newlines( allRegion )
 
 		# Move done to the end of the file
-		# Move bugs to the top of header ranges
+		# Move bugs to the top of header ranges (if specified)
 		# Sort in-progress trees to the top of the section
 		# Keep done parents and children in trees with live nodes
 		# Done root->leaf path goes to Done section
@@ -163,11 +183,13 @@ class CmlCleanupCommand(sublime_plugin.TextCommand):
 			if foundEmpty:
 				continue
 
-			# segregate bugs  -- Not for UBI projects
-#			foundBug = re.search( r'^\s*(\#.*)$', lineContents, re.M )
-#			if foundBug:
-#				section.bugs += foundBug.group(1) + '\n'
-#				continue
+			# segregate bugs
+			if bugsFirst:
+				foundBug = re.search( r'^\s*(\# .*)$', lineContents, re.M )
+				if foundBug:
+					debugOut("found bug", foundBug.group(1), errorLine, 1) 
+					section.bugs += foundBug.group(1) + '\n'
+					continue
 
 			foundHeader = re.search( r'==', lineContents, re.M )
 			if foundHeader:
@@ -188,12 +210,12 @@ class CmlCleanupCommand(sublime_plugin.TextCommand):
 				parent = lastNode
 				while parent != None and parent.indent != (ind - 1):
 					if parent.indent == 0:
-						errorMessage( errorLine, lineContents )
+						errorMessage( "parent.indent is 0", errorLine, lineContents )
 						return
 					parent = parent.parent()  
 
 			if ind != 0 and parent == None:
-				errorMessage( errorLine, lineContents )
+				errorMessage( "have indent but no parent", errorLine, lineContents )
 				return
 
 			node = makeNode( lineContents, errorLine, parent )
@@ -210,7 +232,8 @@ class CmlCleanupCommand(sublime_plugin.TextCommand):
 		# get the live and dead interpretations of the node trees
 		for section in sections:
 			for node in section.nodes:
-				#node.printTree()
+				if debugLevel > 0:
+					node.printTree()
 
 				if node.hasActivePath():
 					activeTree = node.compileLiveTree( "", 0 )
@@ -245,3 +268,5 @@ class CmlCleanupCommand(sublime_plugin.TextCommand):
 		self.view.replace( edit, region, newFile )
 
 		self.view.sel().clear()
+
+		sublime.status_message('CML Cleanup done.')

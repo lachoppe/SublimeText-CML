@@ -1,18 +1,19 @@
 === HEADING 1				ffffff	underline	000000
 == Heading 2				ffff00	underline
 = Major						ff9752
-# Bug						ff5050
-* Active					3fafff
 - Todo						6f6f6f
 	- Todo					9f9f9f
 		- Todo				cfcfcf
 			- Todo			ffffff
+# Bug						ff5050
+* Active					3fafff
 ? Question					cf5fcf
 ! Alert						ff6060
 Plaintext					a0a0a0
 + Done						4f8f4f	italic
 x Dead						7f5f5f	italic
 
+A _highlight text_		   _474710_	glow
 A +project				   +ef4fff
 A @context				   @ffcf3f
 A `command`				   `7fef2f`
@@ -22,15 +23,15 @@ A ~old~					   ~7f5f5f	italic~
 
 === TEST
 
-# Bug 				+project @context `command` ws://link `not://link` ~old~ test
-* Active 			+project @context `command` ws://link `not://link` ~old~ test
-- Todo 				+project @context `command` ws://link `not://link` ~old~ test
-	- Todo 			+project @context `command` ws://link `not://link` ~old~ test
-		- Todo 		+project @context `command` ws://link `not://link` ~old~ test
-			- Todo 	+project @context `command` ws://link `not://link` ~old~ test
-? Question 			+project @context `command` ws://link `not://link` ~old~ test
-! Alert 			+project @context `command` ws://link `not://link` ~old~ test
-Plain 				+project @context `command` ws://link `not://link` ~old~ test
-+ Done 				+project @context `command` ws://link `not://link` ~old~ test
-x Dead 				+project @context `command` ws://link `not://link` ~old~ test
-
+- Todo 				_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+	- Todo 			_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+		- Todo 		_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+			- Todo 	_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+# Bug top			_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+	# Bug sub		_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+* Active 			_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+? Question 			_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+! Alert 			_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+Plain 				_highlight_ +project @context `command` ws://link `not://link` ~old~ test
++ Done 				_highlight_ +project @context `command` ws://link `not://link` ~old~ test
+x Dead 				_highlight_ +project @context `command` ws://link `not://link` ~old~ test

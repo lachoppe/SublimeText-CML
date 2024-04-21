@@ -1,0 +1,10 @@
+// These settings override both User and Default settings for the cml syntax
+{
+	"tab_completion": false,
+	"cml_debug_level": 0,
+	// "cml_bugs_first": true,
+	"extensions":
+	[
+		"cml",
+	],
+}

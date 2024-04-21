@@ -609,6 +609,20 @@
 
 		<dict>
 			<key>name</key>
+			<string>todo.highlight</string>
+			<key>scope</key>
+			<string>highlight</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>glow</string>
+				<key>background</key>
+				<string>#474710</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>name</key>
 			<string>todo.string</string>
 			<key>scope</key>
 			<string>todo.string</string>
