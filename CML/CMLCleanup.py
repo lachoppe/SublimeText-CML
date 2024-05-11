@@ -1,7 +1,7 @@
-from sublime import *
-from sublime_plugin import *
-from re import *
-from weakref import *
+import sublime
+import sublime_plugin
+import re
+import weakref
 
 abortPlugin = 0
 debugLevel = 0
